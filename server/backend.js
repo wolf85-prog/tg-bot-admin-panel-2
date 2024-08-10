@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const sequelize = require('./db')
-const {Plan, Distributionw, Reportdistribw} = require('./models/models')
+const {Plan, Distributionw} = require('./models/models')
 const {Message, Conversation, Worker} = require('./models/workers')
 const { Op } = require('sequelize')
 const cors = require('cors')
@@ -23,10 +23,6 @@ const axios = require("axios");
 const {io} = require("socket.io-client")
 const socketUrl = process.env.SOCKET_APP_URL
 
-//мониторинг
-const statusMonitor = require('express-status-monitor');
-
-let tasks = []
 
 // Port that the webserver listens to
 const port = process.env.PORT || 5001;
@@ -40,11 +36,6 @@ const $host = axios.create({
 })
 
 const app = express();
-
-app.use(statusMonitor({
-    title: 'Бэкэнд админки',
-    theme: '../../../../../custom.css',
-})); // Enable Express Status Monitor middleware
 
 app.use(cors())
 app.use(express.json())
