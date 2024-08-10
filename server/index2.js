@@ -29,7 +29,7 @@ const statusMonitor = require('express-status-monitor');
 let tasks = []
 
 // Port that the webserver listens to
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 const token = process.env.TELEGRAM_API_TOKEN_WORK
 const chatAdminId = process.env.REACT_APP_CHAT_ADMIN_ID
 const host = process.env.HOST
@@ -58,9 +58,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/api', Route);
 
 // Certificate
-const privateKey = fs.readFileSync('privkey.pem', 'utf8'); //fs.readFileSync('/etc/letsencrypt/live/proj.uley.team/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('cert.pem', 'utf8'); //fs.readFileSync('/etc/letsencrypt/live/proj.uley.team/cert.pem', 'utf8');
-const ca = fs.readFileSync('chain.pem', 'utf8'); //fs.readFileSync('/etc/letsencrypt/live/proj.uley.team/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('privkey.pem', 'utf8');
+const certificate = fs.readFileSync('cert.pem', 'utf8');
+const ca = fs.readFileSync('chain.pem', 'utf8');
 
 const credentials = {
     key: privateKey,

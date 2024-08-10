@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index2.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js "
+    "dev": "nodemon index2.js",
+    "start": "node index2.js "
   },
   "keywords": [],
   "author": "",

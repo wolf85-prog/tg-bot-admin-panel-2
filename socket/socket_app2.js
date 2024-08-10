@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fs = require('fs');
 const https = require('https');
 
@@ -6,18 +7,17 @@ const express = require("express");
 const socket = require("socket.io");
 const cors = require('cors');
 
-const PORT = 9000;
+const PORT = process.env.PORT
+const host_admin = process.env.HOST_ADMIN
+const host = process.env.HOST
+
 const app = express();
 app.use(cors())
-// app.use(cors({
-//     origin:"https://proj.uley.team:3000",
-//     origin:"https://proj.uley.team:8000",
-// }));
 
 // Certificate
-const privateKey = fs.readFileSync('privkey.pem', 'utf8'); //fs.readFileSync('/etc/letsencrypt/live/proj.uley.team/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('cert.pem', 'utf8'); //fs.readFileSync('/etc/letsencrypt/live/proj.uley.team/cert.pem', 'utf8');
-const ca = fs.readFileSync('chain.pem', 'utf8'); //fs.readFileSync('/etc/letsencrypt/live/proj.uley.team/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('privkey.pem', 'utf8'); 
+const certificate = fs.readFileSync('cert.pem', 'utf8'); 
+const ca = fs.readFileSync('chain.pem', 'utf8'); 
 
 const credentials = {
     key: privateKey,
@@ -29,21 +29,16 @@ const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
-    console.log(`https://proj.uley.team:${PORT}`);
+    console.log(`${host}:${PORT}`);
 });
 
 // Socket setup
 const io = socket(httpsServer, {
     cors:{
-        origin:"https://proj.uley.team:3000"
+        origin: host_admin
     }
 });
 
-// const io = require("socket.io")(9000, {
-//     cors:{
-//         origin:"http://localhost:3000"
-//     },
-// });
 
 let users = [];
 
