@@ -122,20 +122,23 @@ const DistributionW = () => {
       setLoading(false)
     }
 
-    fetchData();
+    //fetchData();
+
+    setDistributionsWork([]) 
+    setLoading(false)
     
   },[messages])
 
   //обновление списка рассылок
-  useEffect(() => {
-    const timer = setInterval(() => {
-      //setSeconds(seconds => seconds + 5);
-      addNewDistrib(true)
-    }, 5000);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     //setSeconds(seconds => seconds + 5);
+  //     addNewDistrib(true)
+  //   }, 5000);
     
-    // очистка интервала
-    return () => clearInterval(timer);
-  });
+  //   // очистка интервала
+  //   return () => clearInterval(timer);
+  // });
 
   {/* Удаление рассылки */}
   const removeDescription = async(desk) => {
@@ -245,7 +248,7 @@ const DistributionW = () => {
                         <CCol xs>
                           <CCard className="mb-4">
                             <CCardBody>
-
+                              <CCol style={{textAlign: 'center'}}>
                               {loading ? 
                                     
                                 <CSpinner/> :
@@ -264,7 +267,7 @@ const DistributionW = () => {
                                     </CTableRow>
                                   </CTableHead>
                                   <CTableBody>
-                                    {distributionsWork.map((item, index) => (
+                                    {distributionsWork.length > 0 ? distributionsWork.map((item, index) => (
                                       <CTableRow v-for="item in tableItems" key={index} >
                                         {/* <CTableDataCell>
                                           <div>{index+1}</div>
@@ -324,10 +327,13 @@ const DistributionW = () => {
 
                                         </CTableDataCell>
                                       </CTableRow>
-                                    ))}
+                                    ))
+                                    : <CTableRow><CTableDataCell colSpan="7" className="text-center">Список рассылок пуст</CTableDataCell></CTableRow>
+                                    }
                                   </CTableBody>
                                 </CTable>
                               } 
+                              </CCol>
 
                               <div style={{display: 'flex', justifyContent: 'center' }}>
                                 <img src={arrowDown} alt='' onClick={()=>clickNext()} style={{width: '50px', marginTop: '15px', cursor: 'pointer'}}></img>

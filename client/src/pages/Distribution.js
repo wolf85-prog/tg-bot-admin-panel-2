@@ -81,7 +81,10 @@ const Distribution = () => {
       setLoading(false)
     }
 
-    fetchData();
+    //fetchData();
+
+    setDistributions([]) 
+    setLoading(false)
     
   },[])
 
@@ -93,8 +96,8 @@ const Distribution = () => {
   }
 
   const showReceivers = (users) => {
-    console.log("users: ", zakazchiki)
-    console.log("users2: ", users)
+    //console.log("users: ", zakazchiki)
+    //console.log("users2: ", users)
 
     setVisibleModal(true)
     let count = 0
@@ -145,60 +148,63 @@ const Distribution = () => {
                             <CCardBody>
 
                               <br /> 
+                            <CCol style={{textAlign: 'center'}}>
+                              {loading ? 
+                                    
+                                <CSpinner/> :
 
-                            {loading ? 
-                                  
-                              <CSpinner/> :
-
-                              <CTable align="middle" className="mb-0 border" hover responsive>
-                                <CTableHead className='table-dark'>
-                                  <CTableRow>
-                                    <CTableHeaderCell className="text-center">Дата</CTableHeaderCell>
-                                    <CTableHeaderCell className="text-center">Картинка</CTableHeaderCell>
-                                    <CTableHeaderCell className="text-center">Кнопка</CTableHeaderCell>
-                                    <CTableHeaderCell className="text-center">Текст</CTableHeaderCell>
-                                    <CTableHeaderCell className="text-center">Получатели</CTableHeaderCell>   
-                                    <CTableHeaderCell className="text-center">Статус</CTableHeaderCell>
-                                    <CTableHeaderCell className="text-center">Управление</CTableHeaderCell>
-                                  </CTableRow>
-                                </CTableHead>
-                                <CTableBody>
-                                  {distributions.map((item, index) => (
-                                    <CTableRow v-for="item in tableItems" key={index}>
-                                      {/* <CTableDataCell>
-                                        <div>{index+1}</div>
-                                      </CTableDataCell> */}
-                                      <CTableDataCell className="text-center">
-                                        <div>{item.datestart}</div>
-                                      </CTableDataCell>      
-                                      <CTableDataCell className="text-center">
-                                        {item.image.endsWith('.pdf') ?
-                                        <iframe src={item.image} height="120px" width="200px" title="myFramePdf"/>
-                                        : <div>{item.image ? <a href={item.image} target='_blank' rel="noreferrer"><img src={item.image} alt='' width={230} height={120} style={{objectFit: 'contain'}}></img></a> : ''}</div>
-                                        }
-                                      </CTableDataCell>
-                                      <CTableDataCell className="text-center">
-                                        <div>{item.button}</div>
-                                      </CTableDataCell>
-                                      <CTableDataCell className="text-center" style={{width: '50px'}}>
-                                        <div>{item.text}</div>
-                                      </CTableDataCell>
-                                      <CTableDataCell className="text-center" onClick={()=>showReceivers(item.users)}>
-                                        <div>{item.count} | {item.receivers}</div>
-                                      </CTableDataCell>
-                                      <CTableDataCell className="text-center">
-                                        <div>{item.status}</div>
-                                      </CTableDataCell>
-                                      <CTableDataCell className="text-center">
-                                        <CButton color="light" onClick={() => removeDescription(item)}>
-                                          <img src={deleteIcon} alt='' width='10px' />
-                                        </CButton>
-                                      </CTableDataCell>
+                                <CTable align="middle" className="mb-0 border" hover responsive>
+                                  <CTableHead className='table-dark'>
+                                    <CTableRow>
+                                      <CTableHeaderCell className="text-center">Дата</CTableHeaderCell>
+                                      <CTableHeaderCell className="text-center">Картинка</CTableHeaderCell>
+                                      <CTableHeaderCell className="text-center">Кнопка</CTableHeaderCell>
+                                      <CTableHeaderCell className="text-center">Текст</CTableHeaderCell>
+                                      <CTableHeaderCell className="text-center">Получатели</CTableHeaderCell>   
+                                      <CTableHeaderCell className="text-center">Статус</CTableHeaderCell>
+                                      <CTableHeaderCell className="text-center">Управление</CTableHeaderCell>
                                     </CTableRow>
-                                  ))}
-                                </CTableBody>
-                              </CTable>
-                            }                              
+                                  </CTableHead>
+                                  <CTableBody>
+                                    {distributions.length > 0 ? distributions.map((item, index) => (
+                                      <CTableRow v-for="item in tableItems" key={index}>
+                                        {/* <CTableDataCell>
+                                          <div>{index+1}</div>
+                                        </CTableDataCell> */}
+                                        <CTableDataCell className="text-center">
+                                          <div>{item.datestart}</div>
+                                        </CTableDataCell>      
+                                        <CTableDataCell className="text-center">
+                                          {item.image.endsWith('.pdf') ?
+                                          <iframe src={item.image} height="120px" width="200px" title="myFramePdf"/>
+                                          : <div>{item.image ? <a href={item.image} target='_blank' rel="noreferrer"><img src={item.image} alt='' width={230} height={120} style={{objectFit: 'contain'}}></img></a> : ''}</div>
+                                          }
+                                        </CTableDataCell>
+                                        <CTableDataCell className="text-center">
+                                          <div>{item.button}</div>
+                                        </CTableDataCell>
+                                        <CTableDataCell className="text-center" style={{width: '50px'}}>
+                                          <div>{item.text}</div>
+                                        </CTableDataCell>
+                                        <CTableDataCell className="text-center" onClick={()=>showReceivers(item.users)}>
+                                          <div>{item.count} | {item.receivers}</div>
+                                        </CTableDataCell>
+                                        <CTableDataCell className="text-center">
+                                          <div>{item.status}</div>
+                                        </CTableDataCell>
+                                        <CTableDataCell className="text-center">
+                                          <CButton color="light" onClick={() => removeDescription(item)}>
+                                            <img src={deleteIcon} alt='' width='10px' />
+                                          </CButton>
+                                        </CTableDataCell>
+                                      </CTableRow>
+                                    ))
+                                    : <CTableRow><CTableDataCell colSpan="7" className="text-center">Список рассылок пуст</CTableDataCell></CTableRow>
+                                    }
+                                  </CTableBody>
+                                </CTable>
+                              } 
+                            </CCol>                             
                             </CCardBody>
                           </CCard>
 

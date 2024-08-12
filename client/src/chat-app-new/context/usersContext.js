@@ -201,7 +201,7 @@ const UsersProvider = ({ children }) => {
 
 	useEffect(() => {	
 		// storing input name
-		console.log("volume: ", soundVolume)
+		//console.log("volume: ", soundVolume)
 
 		localStorage.setItem("soundVolume", soundVolume);
 		localStorage.setItem("soundMute", soundMute);
@@ -216,407 +216,407 @@ const UsersProvider = ({ children }) => {
 	}, [countMessageWork]);
 
 //---------get Userbots---------------------------------------------------
-	useEffect(() => {
-		const fetchData = async () => {
-			let response = await getContacts();
-			//console.log("contacts: ", response)
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		let response = await getContacts();
+	// 		//console.log("contacts: ", response)
 
-			const arrayContact = []
+	// 		const arrayContact = []
 
-			response.map(async (user, index) => {
+	// 		response.map(async (user, index) => {
 				
-				let conversationId = await getConversation(user.chatId)
-				let messages = await getMessages(conversationId)
+	// 			let conversationId = await getConversation(user.chatId)
+	// 			let messages = await getMessages(conversationId)
 
-				//console.log("count message: ", messages.length)
+	// 			//console.log("count message: ", messages.length)
 
-				//получить последнее сообщение
-				const messageDates = Object.keys(messages);
-				const recentMessageDate = messageDates[messageDates.length - 1];
-				const message = messages[recentMessageDate];
+	// 			//получить последнее сообщение
+	// 			const messageDates = Object.keys(messages);
+	// 			const recentMessageDate = messageDates[messageDates.length - 1];
+	// 			const message = messages[recentMessageDate];
 
-				const dateMessage = message ? messages[recentMessageDate].createdAt : "2000-01-01T00:00:00";
-				const lastMessage = message ? messages[recentMessageDate].text : "";			
+	// 			const dateMessage = message ? messages[recentMessageDate].createdAt : "2000-01-01T00:00:00";
+	// 			const lastMessage = message ? messages[recentMessageDate].text : "";			
 
-				const arrayMessage = []
-				const allDate = []
+	// 			const arrayMessage = []
+	// 			const allDate = []
 
-				messages.map(message => {
-					const d = new Date(message.createdAt);
-					const year = d.getFullYear();
-					const month = String(d.getMonth()+1).padStart(2, "0");
-					const day = String(d.getDate()).padStart(2, "0");
-					const chas = d.getHours();
-					const minut = String(d.getMinutes()).padStart(2, "0");
+	// 			messages.map(message => {
+	// 				const d = new Date(message.createdAt);
+	// 				const year = d.getFullYear();
+	// 				const month = String(d.getMonth()+1).padStart(2, "0");
+	// 				const day = String(d.getDate()).padStart(2, "0");
+	// 				const chas = d.getHours();
+	// 				const minut = String(d.getMinutes()).padStart(2, "0");
 
-					const newDateMessage = `${day}.${month}.${year}`
+	// 				const newDateMessage = `${day}.${month}.${year}`
 
-					const newMessage = {
-						date: newDateMessage,
-						content: message.text,
-						image: message.type === 'image' ? true : false,
-						descript: message.buttons ? message.buttons : '',
-						sender: message.senderId,
-						time: chas + ' : ' + minut,
-						status: 'sent',
-						id:message.messageId,
-						reply:message.replyId,
-					}
-					arrayMessage.push(newMessage)
-					allDate.push(newDateMessage)
-				})
+	// 				const newMessage = {
+	// 					date: newDateMessage,
+	// 					content: message.text,
+	// 					image: message.type === 'image' ? true : false,
+	// 					descript: message.buttons ? message.buttons : '',
+	// 					sender: message.senderId,
+	// 					time: chas + ' : ' + minut,
+	// 					status: 'sent',
+	// 					id:message.messageId,
+	// 					reply:message.replyId,
+	// 				}
+	// 				arrayMessage.push(newMessage)
+	// 				allDate.push(newDateMessage)
+	// 			})
 
-				const dates = [...allDate].filter((el, ind) => ind === allDate.indexOf(el));
+	// 			const dates = [...allDate].filter((el, ind) => ind === allDate.indexOf(el));
 
-				let obj = {};
-				for (let i = 0; i < dates.length; i++) {
-					const arrayDateMessage = []
-					for (let j = 0; j < arrayMessage.length; j++) {
-						if (arrayMessage[j].date === dates[i]) {
-							arrayDateMessage.push(arrayMessage[j])							
-						}
-					}	
-					obj[dates[i]] = arrayDateMessage;
-				}
+	// 			let obj = {};
+	// 			for (let i = 0; i < dates.length; i++) {
+	// 				const arrayDateMessage = []
+	// 				for (let j = 0; j < arrayMessage.length; j++) {
+	// 					if (arrayMessage[j].date === dates[i]) {
+	// 						arrayDateMessage.push(arrayMessage[j])							
+	// 					}
+	// 				}	
+	// 				obj[dates[i]] = arrayDateMessage;
+	// 			}
 
-				let first_name = user.firstname != null ? user.firstname : ''
-				let last_name = user.lastname != null ? user.lastname : ''
+	// 			let first_name = user.firstname != null ? user.firstname : ''
+	// 			let last_name = user.lastname != null ? user.lastname : ''
 
-				let chatName = user.username ? user.username : first_name + ' ' + last_name
+	// 			let chatName = user.username ? user.username : first_name + ' ' + last_name
 
-				const newUser = {
-					id: user.id,
-					name: chatName,
-					chatId: user.chatId,
-					avatar: user.avatar,
-					conversationId: conversationId,
-					unread: 0, 
-					pinned: false,
-					typing: false,
-					message:  lastMessage,
-					date: dateMessage,
-					messages: obj, // { "01/01/2023": arrayMessage,"Сегодня":[] },	
-				}
+	// 			const newUser = {
+	// 				id: user.id,
+	// 				name: chatName,
+	// 				chatId: user.chatId,
+	// 				avatar: user.avatar,
+	// 				conversationId: conversationId,
+	// 				unread: 0, 
+	// 				pinned: false,
+	// 				typing: false,
+	// 				message:  lastMessage,
+	// 				date: dateMessage,
+	// 				messages: obj, // { "01/01/2023": arrayMessage,"Сегодня":[] },	
+	// 			}
 
-				arrayContact.push(newUser)
+	// 			arrayContact.push(newUser)
 
-				//если элемент массива последний
-				if (index === response.length-1) {
-					const sortedClients = [...arrayContact].sort((a, b) => {       
-						var dateA = new Date(a.date), dateB = new Date(b.date) 
-						return dateB-dateA  //сортировка по убывающей дате  
-					})
+	// 			//если элемент массива последний
+	// 			if (index === response.length-1) {
+	// 				const sortedClients = [...arrayContact].sort((a, b) => {       
+	// 					var dateA = new Date(a.date), dateB = new Date(b.date) 
+	// 					return dateB-dateA  //сортировка по убывающей дате  
+	// 				})
 
-					setUsers(sortedClients)
+	// 				setUsers(sortedClients)
 					
-					//сохранить кэш
-					localStorage.setItem("users", JSON.stringify(sortedClients));
-				}
-			})
-	}
+	// 				//сохранить кэш
+	// 				localStorage.setItem("users", JSON.stringify(sortedClients));
+	// 			}
+	// 		})
+	// }
 	
-	fetchData()
+	// fetchData()
 
-	}, [])
+	// }, [])
 
 
 	
 //---------get Workers----------------------------------------------------
 
-	useEffect(() => {
-		//---------get UserWorkers-----------------------------------------
-		const fetchUserWorkerData = async () => {
-			//console.log("userWorkers: ", userWorkers)
+	// useEffect(() => {
+	// 	//---------get UserWorkers-----------------------------------------
+	// 	const fetchUserWorkerData = async () => {
+	// 		//console.log("userWorkers: ", userWorkers)
 		
-			//0 все специалисты
-			let all = await getWorkers()
-			const arrayWorkerAll = []
+	// 		//0 все специалисты
+	// 		let all = await getWorkers()
+	// 		const arrayWorkerAll = []
 		
-			all.map(async (user) => {
-				const newWorker = {
-				  id: user.id,
-				  userfamily: user.userfamily,
-				  username: user.username,
-				  phone: user.phone,
-				  dateborn: user.dateborn,
-				  city: user.city, 
-				  newcity: user.newcity, 
-				  companys: user.companys,
-				  stag: user.stag,
-				  worklist:  user.worklist,
-				  chatId: user.chatId,
-				  createDate: user.createdAt,
-				  avatar: user.avatar,
-				  from: user.from,
-				  promoId: user.promoId,
-				  block: user.block,
-				  deleted: user.deleted,
-				}
+	// 		all.map(async (user) => {
+	// 			const newWorker = {
+	// 			  id: user.id,
+	// 			  userfamily: user.userfamily,
+	// 			  username: user.username,
+	// 			  phone: user.phone,
+	// 			  dateborn: user.dateborn,
+	// 			  city: user.city, 
+	// 			  newcity: user.newcity, 
+	// 			  companys: user.companys,
+	// 			  stag: user.stag,
+	// 			  worklist:  user.worklist,
+	// 			  chatId: user.chatId,
+	// 			  createDate: user.createdAt,
+	// 			  avatar: user.avatar,
+	// 			  from: user.from,
+	// 			  promoId: user.promoId,
+	// 			  block: user.block,
+	// 			  deleted: user.deleted,
+	// 			}
 		
-				arrayWorkerAll.push(newWorker)
-			})
+	// 			arrayWorkerAll.push(newWorker)
+	// 		})
 		
-			setWorkersAll(arrayWorkerAll)
+	// 		setWorkersAll(arrayWorkerAll)
 
-			//1 все специалисты 100
-			let response = await getWorkersCount(100, workers.length);
-			console.log("workers size: ", response.length)
+	// 		//1 все специалисты 100
+	// 		let response = await getWorkersCount(100, workers.length);
+	// 		console.log("workers size: ", response.length)
 		
-			const arrayWorker = []
+	// 		const arrayWorker = []
 		
-			response.reverse().map(async (user) => {
-				const newWorker = {
-				  id: user.id,
-				  userfamily: user.userfamily,
-				  username: user.username,
-				  phone: user.phone,
-				  dateborn: user.dateborn,
-				  city: user.city, 
-				  newcity: user.newcity, 
-				  companys: user.companys,
-				  stag: user.stag,
-				  worklist:  user.worklist,
-				  chatId: user.chatId,
-				  createDate: user.createdAt,
-				  avatar: user.avatar,
-				  from: user.from,
-				  promoId: user.promoId,
-				  block: user.block,
-				  deleted: user.deleted,
-				}
+	// 		response.reverse().map(async (user) => {
+	// 			const newWorker = {
+	// 			  id: user.id,
+	// 			  userfamily: user.userfamily,
+	// 			  username: user.username,
+	// 			  phone: user.phone,
+	// 			  dateborn: user.dateborn,
+	// 			  city: user.city, 
+	// 			  newcity: user.newcity, 
+	// 			  companys: user.companys,
+	// 			  stag: user.stag,
+	// 			  worklist:  user.worklist,
+	// 			  chatId: user.chatId,
+	// 			  createDate: user.createdAt,
+	// 			  avatar: user.avatar,
+	// 			  from: user.from,
+	// 			  promoId: user.promoId,
+	// 			  block: user.block,
+	// 			  deleted: user.deleted,
+	// 			}
 		
-				arrayWorker.push(newWorker)
-			})
+	// 			arrayWorker.push(newWorker)
+	// 		})
 		
-			setWorkers(arrayWorker)	
+	// 		setWorkers(arrayWorker)	
 		
-			//2 все пользователи бота
-			let wuserbots = await getWContacts();
-			console.log("wuserbots size: ", wuserbots.length)
-			const arrayContact = []
+	// 		//2 все пользователи бота
+	// 		let wuserbots = await getWContacts();
+	// 		console.log("wuserbots size: ", wuserbots.length)
+	// 		const arrayContact = []
 
-			//3 все беседы (conversations)
-			let convers = await getWConversations()
-			console.log("conversations: ", convers.length)
-			setConversations(convers)
+	// 		//3 все беседы (conversations)
+	// 		let convers = await getWConversations()
+	// 		console.log("conversations: ", convers.length)
+	// 		setConversations(convers)
 
-			//4 все сообщения бота
-			let messagesAll = await getWMessagesCount(1000) //getWMessagesCount(1000) //getAllWMessages()
-			console.log("messagesAll: ", messagesAll.length)
+	// 		//4 все сообщения бота
+	// 		let messagesAll = await getWMessagesCount(1000) //getWMessagesCount(1000) //getAllWMessages()
+	// 		console.log("messagesAll: ", messagesAll.length)
 
-			let count = 0
-			convers.forEach(async (user, index) => {
+	// 		let count = 0
+	// 		convers.forEach(async (user, index) => {
 		
-				let worker = arrayWorkerAll.find((item)=> item.chatId === user.members[0])
-				let userbot = wuserbots.find((item)=> item.chatId === worker?.chatId)	
+	// 			let worker = arrayWorkerAll.find((item)=> item.chatId === user.members[0])
+	// 			let userbot = wuserbots.find((item)=> item.chatId === worker?.chatId)	
 					
-				let conversationId = user.id //await getWConversation(user.members[0])
+	// 			let conversationId = user.id //await getWConversation(user.members[0])
 
-				let messages = []
-				let messages2 = []
+	// 			let messages = []
+	// 			let messages2 = []
 				
-				//messages = messagesAll.filter(item => item.conversationId === conversationId.toString()) //await getWMessages(conversationId)
-				//messagesAll.reverse()
+	// 			//messages = messagesAll.filter(item => item.conversationId === conversationId.toString()) //await getWMessages(conversationId)
+	// 			//messagesAll.reverse()
 
-				//выбрать из всех сообщений только пользователя в кол-ве 10 шт.
-				for (let i = messagesAll.length-1; i >= 0; i--) {
-					if (messagesAll[i].conversationId === conversationId.toString())
-						messages.push(messagesAll[i])
+	// 			//выбрать из всех сообщений только пользователя в кол-ве 10 шт.
+	// 			for (let i = messagesAll.length-1; i >= 0; i--) {
+	// 				if (messagesAll[i].conversationId === conversationId.toString())
+	// 					messages.push(messagesAll[i])
 					
-					if (messages.length === 20)
-					  break;
-				}
+	// 				if (messages.length === 20)
+	// 				  break;
+	// 			}
 
-				//console.log("messages: ", messages)
+	// 			//console.log("messages: ", messages)
 
-				//получить последнее сообщение (без сообщений из рассылки)
-				if (messages.length > 0) {
-					[...messages].reverse().map((message) => {
-						if (message.isBot === false || message.isBot === null) {
-							messages2.push(message)
-						}	
-					})
-				}
+	// 			//получить последнее сообщение (без сообщений из рассылки)
+	// 			if (messages.length > 0) {
+	// 				[...messages].reverse().map((message) => {
+	// 					if (message.isBot === false || message.isBot === null) {
+	// 						messages2.push(message)
+	// 					}	
+	// 				})
+	// 			}
 
-				//console.log("last messages: ", user, messages2)
+	// 			//console.log("last messages: ", user, messages2)
 					
-				const messageDates = Object.keys(messages2); //messages
+	// 			const messageDates = Object.keys(messages2); //messages
 
-				const recentMessageDate = messageDates[messageDates.length - 1];
-				const message = messages2[recentMessageDate];
+	// 			const recentMessageDate = messageDates[messageDates.length - 1];
+	// 			const message = messages2[recentMessageDate];
 				
-				const dateMessage = message ? messages2[recentMessageDate].createdAt : "2000-01-01T00:00:00";
-				const lastMessage = message ? messages2[recentMessageDate].text : "";			
+	// 			const dateMessage = message ? messages2[recentMessageDate].createdAt : "2000-01-01T00:00:00";
+	// 			const lastMessage = message ? messages2[recentMessageDate].text : "";			
 				
-				const arrayMessage = []
-				const allDate = []
+	// 			const arrayMessage = []
+	// 			const allDate = []
 				
-				if (messages) {
-					[...messages].reverse().map(message => {
-						const d = new Date(message.createdAt);
-						const year = d.getFullYear();
-						const month = String(d.getMonth()+1).padStart(2, "0");
-						const day = String(d.getDate()).padStart(2, "0");
-						const chas = d.getHours();
-						const minut = String(d.getMinutes()).padStart(2, "0");
+	// 			if (messages) {
+	// 				[...messages].reverse().map(message => {
+	// 					const d = new Date(message.createdAt);
+	// 					const year = d.getFullYear();
+	// 					const month = String(d.getMonth()+1).padStart(2, "0");
+	// 					const day = String(d.getDate()).padStart(2, "0");
+	// 					const chas = d.getHours();
+	// 					const minut = String(d.getMinutes()).padStart(2, "0");
 					
-						const newDateMessage = `${day}.${month}.${year}`
+	// 					const newDateMessage = `${day}.${month}.${year}`
 				
-						const newMessage = {
-							date: newDateMessage,
-							content: message.text,
-							image: message.type === 'image' ? true : false,
-							descript: message.buttons ? message.buttons : '',
-							sender: message.senderId,
-							time: chas + ' : ' + minut,
-							status: 'sent',
-							id:message.messageId,
-							reply:message.replyId,
-						}
-						arrayMessage.push(newMessage)
-						allDate.push(newDateMessage)
-					})
-				}	
+	// 					const newMessage = {
+	// 						date: newDateMessage,
+	// 						content: message.text,
+	// 						image: message.type === 'image' ? true : false,
+	// 						descript: message.buttons ? message.buttons : '',
+	// 						sender: message.senderId,
+	// 						time: chas + ' : ' + minut,
+	// 						status: 'sent',
+	// 						id:message.messageId,
+	// 						reply:message.replyId,
+	// 					}
+	// 					arrayMessage.push(newMessage)
+	// 					allDate.push(newDateMessage)
+	// 				})
+	// 			}	
 				
-				const dates = [...allDate].filter((el, ind) => ind === allDate.indexOf(el));
+	// 			const dates = [...allDate].filter((el, ind) => ind === allDate.indexOf(el));
 				
-				let obj = {};
-				for (let i = 0; i < dates.length; i++) {
-					const arrayDateMessage = []
-					for (let j = 0; j < arrayMessage.length; j++) {
-						if (arrayMessage[j].date === dates[i]) {
-							arrayDateMessage.push(arrayMessage[j])							
-						}
-					}	
-					obj[dates[i]] = arrayDateMessage;
-				}	
+	// 			let obj = {};
+	// 			for (let i = 0; i < dates.length; i++) {
+	// 				const arrayDateMessage = []
+	// 				for (let j = 0; j < arrayMessage.length; j++) {
+	// 					if (arrayMessage[j].date === dates[i]) {
+	// 						arrayDateMessage.push(arrayMessage[j])							
+	// 					}
+	// 				}	
+	// 				obj[dates[i]] = arrayDateMessage;
+	// 			}	
 				
-				if (worker) {
-					const newUser = {
-						id: worker.id,
-						username: userbot.username ? userbot.username : '', // user.username ? user.username : '',
-						name: worker?.userfamily + " " + worker?.username, //notion[0]?.fio ? notion[0]?.fio : '',
-						city: worker?.city, //notion[0]?.city ? notion[0]?.city : '',
-						newcity: worker?.newcity,
-						phone: worker?.phone, //notion[0]?.phone ? notion[0]?.phone : '',
-						age: worker?.dateborn, //notion[0]?.age ? notion[0]?.age : "",
-						chatId: worker?.chatId,
-						avatar: worker?.avatar ? worker?.avatar : '', //avatars[0]?.image ? avatars[0]?.image : '', //user.avatar,
-						conversationId: conversationId ? conversationId : 0,
-						block: userbot.block ? userbot.block : '',
-						blockw: worker?.block,
-						unread: 0, 
-						pinned: false,
-						typing: false,
-						message:  lastMessage,
-						date: dateMessage,
-						messages: obj, // { "01/01/2023": arrayMessage,"Сегодня":[] },	
-					}
-					//console.log(newUser)
-					arrayContact.push(newUser)
-				}		
+	// 			if (worker) {
+	// 				const newUser = {
+	// 					id: worker.id,
+	// 					username: userbot.username ? userbot.username : '', // user.username ? user.username : '',
+	// 					name: worker?.userfamily + " " + worker?.username, //notion[0]?.fio ? notion[0]?.fio : '',
+	// 					city: worker?.city, //notion[0]?.city ? notion[0]?.city : '',
+	// 					newcity: worker?.newcity,
+	// 					phone: worker?.phone, //notion[0]?.phone ? notion[0]?.phone : '',
+	// 					age: worker?.dateborn, //notion[0]?.age ? notion[0]?.age : "",
+	// 					chatId: worker?.chatId,
+	// 					avatar: worker?.avatar ? worker?.avatar : '', //avatars[0]?.image ? avatars[0]?.image : '', //user.avatar,
+	// 					conversationId: conversationId ? conversationId : 0,
+	// 					block: userbot.block ? userbot.block : '',
+	// 					blockw: worker?.block,
+	// 					unread: 0, 
+	// 					pinned: false,
+	// 					typing: false,
+	// 					message:  lastMessage,
+	// 					date: dateMessage,
+	// 					messages: obj, // { "01/01/2023": arrayMessage,"Сегодня":[] },	
+	// 				}
+	// 				//console.log(newUser)
+	// 				arrayContact.push(newUser)
+	// 			}		
 						
 			
-				//если элемент массива последний
-				if (index === convers.length-1) {
-					const sortedClients = [...arrayContact].sort((a, b) => {       
-						var dateA = new Date(a.date), dateB = new Date(b.date) 
-						return dateB-dateA  //сортировка по убывающей дате  
-					})
+	// 			//если элемент массива последний
+	// 			if (index === convers.length-1) {
+	// 				const sortedClients = [...arrayContact].sort((a, b) => {       
+	// 					var dateA = new Date(a.date), dateB = new Date(b.date) 
+	// 					return dateB-dateA  //сортировка по убывающей дате  
+	// 				})
 
-					console.log("sortedClients: ", sortedClients.length)
+	// 				console.log("sortedClients: ", sortedClients.length)
 		
-					setUserWorkers(sortedClients)
+	// 				setUserWorkers(sortedClients)
 
-					//сохранить кэш
-					localStorage.setItem("userWorkers", JSON.stringify(sortedClients));
-				}				
-			})	
-		}
+	// 				//сохранить кэш
+	// 				localStorage.setItem("userWorkers", JSON.stringify(sortedClients));
+	// 			}				
+	// 		})	
+	// 	}
 		
-		//все сообщения специалистов
-		fetchUserWorkerData();
+	// 	//все сообщения специалистов
+	// 	fetchUserWorkerData();
 		
-	},[])
+	// },[])
 	
 //------------------------------------------------------------------------------------------
 
 	//get Managers
-	useEffect(() => {
-    	const fetchData = async () => {
-			let response = await getManagers();
-      		console.log("managers context: ", response.length)
+	// useEffect(() => {
+    // 	const fetchData = async () => {
+	// 		let response = await getManagers();
+    //   		console.log("managers context: ", response.length)
 
-			setManagers(response)
-		}
+	// 		setManagers(response)
+	// 	}
 
-	  	fetchData();
+	//   	fetchData();
 
-	},[])
+	// },[])
 
 //------------------------------------------------------------------------------------------
 
   	//get DistributionW
-  	useEffect(() => {
-    	const fetchData = async () => {
-			//let response = await getDistributionsW();
-			//1 все рассылки 20
-			let response = await getDistributionsCountW(10, distributionsWork.length);
-      		//console.log("distributionW: ", response.length)
+  	// useEffect(() => {
+    // 	const fetchData = async () => {
+	// 		//let response = await getDistributionsW();
+	// 		//1 все рассылки 20
+	// 		let response = await getDistributionsCountW(10, distributionsWork.length);
+    //   		//console.log("distributionW: ", response.length)
 
-			let response2 = await getDistributionsWPlan();
-      		//console.log("distributionWPlan: ", response2.length)
+	// 		let response2 = await getDistributionsWPlan();
+    //   		//console.log("distributionWPlan: ", response2.length)
 
-			//сортировка
-			const messageSort = [...response].sort((a, b) => {       
-				var dateA = new Date(a.datestart), dateB = new Date(b.datestart) 
-				return dateB-dateA  //сортировка по убывающей дате  
-			})
+	// 		//сортировка
+	// 		const messageSort = [...response].sort((a, b) => {       
+	// 			var dateA = new Date(a.datestart), dateB = new Date(b.datestart) 
+	// 			return dateB-dateA  //сортировка по убывающей дате  
+	// 		})
 
-			const messageSort2 = [...response2].sort((a, b) => {       
-				var dateA = new Date(a.datestart), dateB = new Date(b.datestart) 
-				return dateA-dateB  //сортировка по убывающей дате  
-			})
+	// 		const messageSort2 = [...response2].sort((a, b) => {       
+	// 			var dateA = new Date(a.datestart), dateB = new Date(b.datestart) 
+	// 			return dateA-dateB  //сортировка по убывающей дате  
+	// 		})
 
-			let all = [...messageSort2, ...messageSort]
+	// 		let all = [...messageSort2, ...messageSort]
 
-			setDistributionsWork(all)
-		}
+	// 		setDistributionsWork(all)
+	// 	}
 
-	  	fetchData();
+	//   	fetchData();
 
-	},[])
+	// },[])
 //------------------------------------------------------------------------------------------
 
 	//get Projects
-	useEffect(() => {
-    	const fetchData = async () => {
-			let projects = await getProjectsApi();
-			//console.log("projects size: ", projects.length)
+	// useEffect(() => {
+    // 	const fetchData = async () => {
+	// 		let projects = await getProjectsApi();
+	// 		//console.log("projects size: ", projects.length)
 
-			setProjects(projects)
+	// 		setProjects(projects)
 
-			//сохранить кэш
-			localStorage.setItem("projects", JSON.stringify(projects));
-		}
+	// 		//сохранить кэш
+	// 		localStorage.setItem("projects", JSON.stringify(projects));
+	// 	}
 
-	  	fetchData();
+	//   	fetchData();
 
-	},[])
+	// },[])
 //------------------------------------------------------------------------------------------
 
 	//get Companys
-	useEffect(() => {
-    	const fetchData = async () => {
-			let companys = await getCompanys();
-			//console.log("companys size: ", companys.length)
+	// useEffect(() => {
+    // 	const fetchData = async () => {
+	// 		let companys = await getCompanys();
+	// 		//console.log("companys size: ", companys.length)
 
-			setCompanys(companys)
-		}
+	// 		setCompanys(companys)
+	// 	}
 
-	  	fetchData();
+	//   	fetchData();
 
-	},[])
+	// },[])
 
 //------------------------------------------------------------------------------------------
 	//звонок по телефону

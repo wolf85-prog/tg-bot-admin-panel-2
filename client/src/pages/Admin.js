@@ -128,190 +128,197 @@ const Admin = () => {
 
   const chatAdminId = process.env.REACT_APP_CHAT_ADMIN_ID
   const host = process.env.REACT_APP_API_URL
+
+  useEffect(()=> {
+    setWorkers([])
+    //if (workers.length === 0) {
+      setLoading2(false)
+    //}
+  }, [])
   
-  useEffect(() => {
-    //set tab
-    setTabhub('Workhub')
+  // useEffect(() => {
+  //   //set tab
+  //   setTabhub('Workhub')
 
-    //console.log("specusers: ", specusers)
+  //   //console.log("specusers: ", specusers)
 
-    setTimeout(()=> {
-      setShowNick(!showNick)
-    }, 10000)
-  })
+  //   setTimeout(()=> {
+  //     setShowNick(!showNick)
+  //   }, 10000)
+  // })
 
-  useEffect(() => {
-    //get width
-    setWdthGrafik(grafik.current ? grafik.current.offsetWidth - 100 : 0)
-  }, [grafik.current]);
+  // useEffect(() => {
+  //   //get width
+  //   setWdthGrafik(grafik.current ? grafik.current.offsetWidth - 100 : 0)
+  // }, [grafik.current]);
 //--------------------------------------------------------------------------------------------------
 
   //поиск
-  useEffect(() => {
-		const filteredData = workersAll.filter(user=> (user.userfamily + user.username + user.chatId)?.replace(/[её]/g, '(е|ё)').toLowerCase().includes(text.replace(/[её]/g, '(е|ё)').toLowerCase()));
-    setSortWorkers(text === '' ? workersAll : filteredData); 
-    setWorkers(text === '' ? workers : filteredData);  
-  }, [text]);
+  // useEffect(() => {
+	// 	const filteredData = workersAll.filter(user=> (user.userfamily + user.username + user.chatId)?.replace(/[её]/g, '(е|ё)').toLowerCase().includes(text.replace(/[её]/g, '(е|ё)').toLowerCase()));
+  //   setSortWorkers(text === '' ? workersAll : filteredData); 
+  //   setWorkers(text === '' ? workers : filteredData);  
+  // }, [text]);
 
   //поиск удаленных специалистов
-  useEffect(() => {
-		const filteredData = delWorkers.filter(user=> (user.userfamily + user.username + user.chatId)?.replace(/[её]/g, '(е|ё)').toLowerCase().includes(textDelete.replace(/[её]/g, '(е|ё)').toLowerCase()));
-    setSortDelWorkers(textDelete === '' ? delWorkers : filteredData);  
-  }, [textDelete]);
+  // useEffect(() => {
+	// 	const filteredData = delWorkers.filter(user=> (user.userfamily + user.username + user.chatId)?.replace(/[её]/g, '(е|ё)').toLowerCase().includes(textDelete.replace(/[её]/g, '(е|ё)').toLowerCase()));
+  //   setSortDelWorkers(textDelete === '' ? delWorkers : filteredData);  
+  // }, [textDelete]);
 
 
   //get filter workers
-  useEffect(() => {
-    //setSortWorkers(workers)
+  // useEffect(() => {
+  //   //setSortWorkers(workers)
 
-    const currentDate = new Date()
-    const currentMonth = currentDate.getMonth()
+  //   const currentDate = new Date()
+  //   const currentMonth = currentDate.getMonth()
 
-    //массив новых пользователей за текущий месяц
-    const arr1 = workersAll.filter(item => new Date(item.createDate).getMonth() === currentMonth)
-    setNewWorkers(arr1)
+  //   //массив новых пользователей за текущий месяц
+  //   const arr1 = workersAll.filter(item => new Date(item.createDate).getMonth() === currentMonth)
+  //   setNewWorkers(arr1)
 
-    //массив удаленных пользователей
-    const arrDel = workersAll.filter(item => item.deleted === true)
-    setDelWorkers(arrDel)
-    setSortDelWorkers(arrDel)
+  //   //массив удаленных пользователей
+  //   const arrDel = workersAll.filter(item => item.deleted === true)
+  //   setDelWorkers(arrDel)
+  //   setSortDelWorkers(arrDel)
 
-  }, [workersAll])
+  // }, [workersAll])
 //--------------------------------------------------------------------------------------------------
 
 //get workers active
-useEffect(() => {
-  const arrClients = []
+// useEffect(() => {
+//   const arrClients = []
 
-  const fetchData = async() => {
+//   const fetchData = async() => {
 
-    let messages = await getAllWMessages()
+//     let messages = await getAllWMessages()
 
-    workersAll.map((client, index) => {
+//     workersAll.map((client, index) => {
 
-      const allMessages = messages ? messages.length : [] //всего сообщений
-      const currentMonth = new Date().getMonth()
-      const messagesUser = messages.find(el => el.senderId === client.chatId  && new Date(el.createdAt).getMonth() === currentMonth);
-      //массив активных пользователей за текущий месяц
-      if (messagesUser !== undefined) {
-        arrClients.push(messagesUser)
-      }  
-    })
-    setActivWorkers(arrClients)
-  }
+//       const allMessages = messages ? messages.length : [] //всего сообщений
+//       const currentMonth = new Date().getMonth()
+//       const messagesUser = messages.find(el => el.senderId === client.chatId  && new Date(el.createdAt).getMonth() === currentMonth);
+//       //массив активных пользователей за текущий месяц
+//       if (messagesUser !== undefined) {
+//         arrClients.push(messagesUser)
+//       }  
+//     })
+//     setActivWorkers(arrClients)
+//   }
   
-  fetchData();
+//   fetchData();
   
-}, [workersAll]);
+// }, [workersAll]);
 //---------------------------------------------------------------------------------------------------------
 
   //get Contacts
-  useEffect(() => {
-    const arrClients = []
+  // useEffect(() => {
+  //   const arrClients = []
 
-    const fetchData = async() => {
+  //   const fetchData = async() => {
 
-      //console.log("workers (admin): ", workers.length)
-      setLoading2(false)
+  //     //console.log("workers (admin): ", workers.length)
+  //     setLoading2(false)
 
-      let messages = await getAllMessages()
+  //     let messages = await getAllMessages()
 
-      const managers = [...zakazchiki];
-      //console.log("zakazchiki: ", zakazchiki)
+  //     const managers = [...zakazchiki];
+  //     //console.log("zakazchiki: ", zakazchiki)
 
-      clients.map((client, index) => {
+  //     clients.map((client, index) => {
         
-        let userIndex = zakazchiki?.findIndex((manager) => manager.tgID === client.chatId);  
-        const userObject = managers[userIndex];
+  //       let userIndex = zakazchiki?.findIndex((manager) => manager.tgID === client.chatId);  
+  //       const userObject = managers[userIndex];
 
-        let userObject2 = comps.find((company) => company.managers.find(man => man.id ===  userObject?.id)) //company.managers.map((manager) => manager.id === userObject?.id));  
+  //       let userObject2 = comps.find((company) => company.managers.find(man => man.id ===  userObject?.id)) //company.managers.map((manager) => manager.id === userObject?.id));  
 
-        const companyName = userObject2?.title
-        const companyCity = userObject2?.city ? userObject2?.city : ''
+  //       const companyName = userObject2?.title
+  //       const companyCity = userObject2?.city ? userObject2?.city : ''
 
-        const lastDate = client.date ? client.date.split('T') : ''
-        const d = new Date(lastDate[0]);
-				const year = d.getFullYear();
-				const month = String(d.getMonth()+1).padStart(2, "0");
-				const day = String(d.getDate()).padStart(2, "0");
-				const newDateActivity = `${day}.${month}.${year}`
+  //       const lastDate = client.date ? client.date.split('T') : ''
+  //       const d = new Date(lastDate[0]);
+	// 			const year = d.getFullYear();
+	// 			const month = String(d.getMonth()+1).padStart(2, "0");
+	// 			const day = String(d.getDate()).padStart(2, "0");
+	// 			const newDateActivity = `${day}.${month}.${year}`
 
-        const newClientName = client.name.includes("|") ? client.name.split(" | ")[1] : client.name
+  //       const newClientName = client.name.includes("|") ? client.name.split(" | ")[1] : client.name
          
-        const allMessages = messages ? messages.length : [] //всего сообщений
-        const fromAdmin = messages ? messages.filter(el => el.senderId === chatAdminId) : [];
-        const messagesUsers = messages ? messages.filter(el => el.senderId === client.chatId) : [];
+  //       const allMessages = messages ? messages.length : [] //всего сообщений
+  //       const fromAdmin = messages ? messages.filter(el => el.senderId === chatAdminId) : [];
+  //       const messagesUsers = messages ? messages.filter(el => el.senderId === client.chatId) : [];
 
-        const arr = clients.filter(el => el.message === '');
-        setNewClients(arr)
+  //       const arr = clients.filter(el => el.message === '');
+  //       setNewClients(arr)
 
-        const arr2 = clients.filter(el => el.message !== '');
-        setOldClients(arr2)
+  //       const arr2 = clients.filter(el => el.message !== '');
+  //       setOldClients(arr2)
         
-        const newObj = {
-          avatar: client.avatar,
-          user: {
-            name: newClientName,
-            new: true,
-            registered: '01.01.2023',
-          },
-          TG_ID: client.chatId,
-          city: companyCity,
-          company: companyName ? companyName : '',
-          phone: userObject?.phone,
-          usage: {
-            value: Math.round(messagesUsers.length * 100 / (allMessages - fromAdmin.length)), 
-            period: '01.04.2023 - ' + newDateActivity,
-            color: 'success',
-          },
-          activity: newDateActivity,
-        }
+  //       const newObj = {
+  //         avatar: client.avatar,
+  //         user: {
+  //           name: newClientName,
+  //           new: true,
+  //           registered: '01.01.2023',
+  //         },
+  //         TG_ID: client.chatId,
+  //         city: companyCity,
+  //         company: companyName ? companyName : '',
+  //         phone: userObject?.phone,
+  //         usage: {
+  //           value: Math.round(messagesUsers.length * 100 / (allMessages - fromAdmin.length)), 
+  //           period: '01.04.2023 - ' + newDateActivity,
+  //           color: 'success',
+  //         },
+  //         activity: newDateActivity,
+  //       }
 
-        arrClients.push(newObj)
-      })
+  //       arrClients.push(newObj)
+  //     })
 
-      const filteredClients = [...arrClients].filter((el) => el.TG_ID !== chatAdminId); //без админского пользователя  
-      const clientSort = [...filteredClients].sort((a, b) => {       
-				return b.usage.value-a.usage.value  //сортировка по убывающей активности  
-			}) 
+  //     const filteredClients = [...arrClients].filter((el) => el.TG_ID !== chatAdminId); //без админского пользователя  
+  //     const clientSort = [...filteredClients].sort((a, b) => {       
+	// 			return b.usage.value-a.usage.value  //сортировка по убывающей активности  
+	// 		}) 
  
-      setContacts(clientSort)  
+  //     setContacts(clientSort)  
       
-      setTimeout(() => {
-        setLoading(false)
-      }, "6000")
-    }
+  //     setTimeout(() => {
+  //       setLoading(false)
+  //     }, "6000")
+  //   }
     
-    fetchData();
+  //   fetchData();
     
-  }, [clients, workersAll]);
+  // }, [clients, workersAll]);
 //---------------------------------------------------------------------------------------------
 
 //get Projects
-  useEffect(() => {
-    const arrProjects = []
+  // useEffect(() => {
+  //   const arrProjects = []
 
-    const fetchData = async () => {
+  //   const fetchData = async () => {
 			
-      projs.map(async (project) => {
-        const newProject = {
-					id: project.id,
-					name: project.title,
-					start: project.time_start,
-          created: project.time_created,
-          teh: project.teh,
-          manager: project.manager,
-          company: project.company,
-				}
-        arrProjects.push(newProject)
-      })
+  //     projs.map(async (project) => {
+  //       const newProject = {
+	// 				id: project.id,
+	// 				name: project.title,
+	// 				start: project.time_start,
+  //         created: project.time_created,
+  //         teh: project.teh,
+  //         manager: project.manager,
+  //         company: project.company,
+	// 			}
+  //       arrProjects.push(newProject)
+  //     })
 
-      setProjects(arrProjects) 
-    }
+  //     setProjects(arrProjects) 
+  //   }
 
-    fetchData();
+  //   fetchData();
     
-  },[projs])
+  // },[projs])
 
 //-----------------------------------------------------------------------------------------------
 
@@ -1606,7 +1613,7 @@ useEffect(() => {
                                   {(inputProps) => <CFormInput 
                                                     {...inputProps} 
                                                     placeholder="01.01.2024" 
-                                                    disableUnderline
+                                                    disableunderline="true"
                                                     aria-label="sm input example"
                                                     style={{marginLeft: '10px'}}    
                                                   />}
@@ -1619,7 +1626,7 @@ useEffect(() => {
                                   {(inputProps) => <CFormInput 
                                                     {...inputProps} 
                                                     placeholder="31.12.2024" 
-                                                    disableUnderline
+                                                    disableunderline="true"
                                                     aria-label="sm input example"
                                                     style={{marginLeft: '10px'}} 
                                                   />}
@@ -1661,7 +1668,7 @@ useEffect(() => {
                                     </CTableRow>
                                   </CTableHead>
                                   <CTableBody>                                  
-                                    {workers.map((item, index) => (
+                                    {workers.length > 0 ? workers.map((item, index) => (
                                       <CTableRow v-for="item in tableItems" key={index}>
                                         <CTableDataCell className="text-center">
                                           {String(new Date(item.createDate).getDate()).padStart(2, "0")+ "."+ String(new Date(item.createDate).getMonth()+1).padStart(2, "0") + "." +new Date(item.createDate).getFullYear()}
@@ -1700,6 +1707,7 @@ useEffect(() => {
                                         </CTableDataCell> 
                                       </CTableRow>
                                       ))
+                                      : <CTableRow><CTableDataCell colSpan="8" className="text-center">Список специалистов пуст</CTableDataCell></CTableRow>
                                     }
                                     {/* <CTableRow>
                                       <CTableDataCell className="text-center">
@@ -1707,9 +1715,9 @@ useEffect(() => {
                                       </CTableDataCell>
                                     </CTableRow> */}
                                 </CTableBody>                   
-                              </CTable>
+                                </CTable>
                               
-                            }
+                              }
                             
                               </CCol>
                             </CRow>
@@ -1740,7 +1748,7 @@ useEffect(() => {
                                   {(inputProps) => <CFormInput 
                                                     {...inputProps} 
                                                     placeholder="01.01.2024" 
-                                                    disableUnderline
+                                                    disableunderline="true"
                                                     aria-label="sm input example"
                                                     style={{marginLeft: '10px'}}    
                                                   />}
@@ -1753,7 +1761,7 @@ useEffect(() => {
                                   {(inputProps) => <CFormInput 
                                                     {...inputProps} 
                                                     placeholder="31.12.2024" 
-                                                    disableUnderline
+                                                    disableunderline="true"
                                                     aria-label="sm input example"
                                                     style={{marginLeft: '10px'}} 
                                                   />}

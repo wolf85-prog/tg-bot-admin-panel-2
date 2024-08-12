@@ -127,7 +127,11 @@ const Workers = () => {
       setLoadingCount(false)
     }
 
-    fetchData();
+    //fetchData();
+
+    setSpec([]) 
+    setLoading(false)
+    setLoadingCount(false)
     
   },[countWorkerNew])
 
@@ -201,7 +205,7 @@ const Workers = () => {
                                     </CTableRow>
                                   </CTableHead>
                                   <CTableBody>                                  
-                                    {spec.map((item, index) => (
+                                    {spec.length > 0 ? spec.map((item, index) => (
                                       <CTableRow v-for="item in tableItems" key={index}>
                                         <CTableDataCell className="text-center" style={{color: item.accept && "red"}}>
                                           {item.date}
@@ -251,6 +255,7 @@ const Workers = () => {
                                         </CTableDataCell>
                                       </CTableRow>
                                       ))
+                                      : <CTableRow><CTableDataCell colSpan="7" className="text-center">Список претендентов пуст</CTableDataCell></CTableRow>
                                     }
                                 </CTableBody>                   
                                 </CTable>

@@ -100,63 +100,68 @@ const Notifications = () => {
 
   const [text, setText]= useState("");
 
+  useEffect(()=> {
+    setProjects([]) 
+    setPending(false);
+  }, [])
+
   //поиск
-  useEffect(() => {
-		const filteredData = [...projects].filter(item=> (item.title + item.id + item.chatId)?.replace(/[её]/g, '(е|ё)').toLowerCase().includes(text.replace(/[её]/g, '(е|ё)').toLowerCase()));
-    //setSortWorkers(text === '' ? workersAll : filteredData); 
-    setProjects(text === '' ? projects : filteredData) 
-    //setWorkers(text === '' ? workers : filteredData);  
-  }, [text]);
+  // useEffect(() => {
+	// 	const filteredData = [...projects].filter(item=> (item.title + item.id + item.chatId)?.replace(/[её]/g, '(е|ё)').toLowerCase().includes(text.replace(/[её]/g, '(е|ё)').toLowerCase()));
+  //   //setSortWorkers(text === '' ? workersAll : filteredData); 
+  //   setProjects(text === '' ? projects : filteredData) 
+  //   //setWorkers(text === '' ? workers : filteredData);  
+  // }, [text]);
 
   //get Projects
-  useEffect(() => {
-    const arrProjects = []
+  // useEffect(() => {
+  //   const arrProjects = []
 
-    setCountProjects(0)
+  //   setCountProjects(0)
 
-    const fetchData = async () => {
-      // console.log("companys: ", comps)
-      // console.log("managers: ", zakazchiki)
-      // console.log("notifications: ", notifications)
+  //   const fetchData = async () => {
+  //     // console.log("companys: ", comps)
+  //     // console.log("managers: ", zakazchiki)
+  //     // console.log("notifications: ", notifications)
 
-      notifications.map(async (project) => {
+  //     notifications.map(async (project) => {
 
-        const manager = [...zakazchiki];
-        let userIndex2 = zakazchiki?.findIndex((man) => man.id === project.managerId);  
-        const userObject2 = manager[userIndex2];
-        const managerName = userObject2?.fio ? userObject2.fio : ''
-        const managerPhone = userObject2?.phone ? userObject2?.phone : ''
+  //       const manager = [...zakazchiki];
+  //       let userIndex2 = zakazchiki?.findIndex((man) => man.id === project.managerId);  
+  //       const userObject2 = manager[userIndex2];
+  //       const managerName = userObject2?.fio ? userObject2.fio : ''
+  //       const managerPhone = userObject2?.phone ? userObject2?.phone : ''
         
-        let userObject = comps?.find((company) => company.id === project.companyId);  
-        const companyName = userObject ? userObject?.title : ''
+  //       let userObject = comps?.find((company) => company.id === project.companyId);  
+  //       const companyName = userObject ? userObject?.title : ''
 
-        const d = new Date(project.createdAt);
-				const year = d.getFullYear();
-				const month = String(d.getMonth()+1).padStart(2, "0");
-				const day = String(d.getDate()).padStart(2, "0");
-				const chas = d.getHours();
-				const minut = String(d.getMinutes()).padStart(2, "0");
-				const newDateMessage = `${day}.${month}.${year} ${chas}:${minut}`
+  //       const d = new Date(project.createdAt);
+	// 			const year = d.getFullYear();
+	// 			const month = String(d.getMonth()+1).padStart(2, "0");
+	// 			const day = String(d.getDate()).padStart(2, "0");
+	// 			const chas = d.getHours();
+	// 			const minut = String(d.getMinutes()).padStart(2, "0");
+	// 			const newDateMessage = `${day}.${month}.${year} ${chas}:${minut}`
 
-        const newProject = {
-          date: newDateMessage,
-          title: project.name,
-          receiverId: companyName,
-          managerId: managerName,
-          address: project.geo,
-          contacts: managerPhone,
-				}
-        arrProjects.push(newProject)
-      })
+  //       const newProject = {
+  //         date: newDateMessage,
+  //         title: project.name,
+  //         receiverId: companyName,
+  //         managerId: managerName,
+  //         address: project.geo,
+  //         contacts: managerPhone,
+	// 			}
+  //       arrProjects.push(newProject)
+  //     })
 
-      setProjects(arrProjects) 
+  //     setProjects(arrProjects) 
 
-      setPending(false);
-    }
+  //     setPending(false);
+  //   }
 
-    fetchData();
+  //   fetchData();
     
-  }, [notifications])
+  // }, [notifications])
 
   return (
     <div className='dark-theme'>
